@@ -1,6 +1,6 @@
 .root {
     background-color: #000000;
-    font-family: "inter", serif;
+    font-family: "inter", serif, sans-serif;
     box-sizing: border-box;
     margin: 0 auto;
     max-width: 1280px;
@@ -10,4 +10,23 @@
     -ms-text-size-adjust: 100%;
     -moz-text-size-adjust: 100%;
     text-rendering: optimizeLegibility;
+    padding: 0 200px 0 200px;
+}
+
+@media screen and (max-width: 1000px) {
+    .root {
+        padding: 0 50px 0 50px;
+    }
+}
+
+@media screen and (max-width: 600px) {
+    .root {
+        padding: 0 19px 0 19px;
+    }
+}
+
+@media screen and (max-width: 400px) {
+    .root {
+        padding: 0;
+    }
 }

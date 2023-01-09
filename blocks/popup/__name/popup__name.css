@@ -13,8 +13,13 @@
     box-shadow: 1px 1px 5px 0 rgb(117, 117, 206);
 }
 
+.popup__name:last-of-type {
+    margin-top: 30px;
+}
+
 @media screen and (max-width: 500px) {
     .popup__name {
         margin-top: 25px;
     }
 }
+

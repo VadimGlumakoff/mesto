@@ -9,19 +9,18 @@
     </head>
     <body class="root">
         <header class="header">
-            <a class="header__link" href="#"><img class="header__logo" src="./images/Vector.png" alt="Логотип" /></a>
-            <hr class="header__line" />
+            <a class="header__link" href="#"><img class="header__logo" src="./images/Vector.svg" alt="Логотип" /></a>
         </header>
         <main class="content">
             <section class="profile">
                 <img class="profile__avatar" src="./images/image.jpg" alt="Аватар" />
                 <div class="profile__title">
-                    <h1 class="profile__title-name">Жак-Ив Кусто</h1>
-                    <p class="profile__subtitle-about-me">Исследователь океана</p>
+                    <div class="profile__button">
+                        <h1 class="profile__name">Жак-Ив Кусто</h1>
+                        <a class="profile__edit" href="#"></a>
+                    </div>
+                    <p class="profile__about">Исследователь океана</p>
                 </div>
-                <a class="profile__edit" href="#">
-                    <img src="./images/Edit-Button.svg" alt="Редактирование" class="profile__edit-image" />
-                </a>
                 <a class="profile__add" href="#">
                     <img src="./images/pluse.png.png" alt="Добавить" class="profile__image" />
                 </a>
@@ -70,21 +69,19 @@
                     </div>
                 </div>
             </section>
-            <footer class="footer">
-                <p class="footer__copyright">&copy;2020 Mesto Russia</p>
-            </footer>
         </main>
+        <footer class="footer">
+            <p class="footer__copyright">&copy;2020 Mesto Russia</p>
+        </footer>
         <div class="popup">
-            <div class="popup__container">
-                <div class="popup__content">
-                    <img class="popup__close" src="./images/Close-Icon.png" alt="Крестик"/>
-                    <p class="popup__title">Редактировать профиль</p>
-                    <form class="popup__form">
-                        <input type="text" value="Жак-Ив Кусто" class="popup__name" />
-                        <input type="text" value="Исследователь океана" class="popup__about-me" />
-                        <button class="popup__button" type="submit">Сохранить</button>
-                    </form>
-                </div>
+            <div class="popup__content">
+                <button class="popup__close" type="button"></button>
+                <h2 class="popup__title">Редактировать профиль</h2>
+                <form class="popup__form" name="form" method="post">
+                    <input type="text" id="name" placeholder="Имя" name="name" class="popup__name" />
+                    <input type="text" id="about" placeholder="О себе" name="about" class="popup__name" />
+                    <button class="popup__button" type="submit">Сохранить</button>
+                </form>
             </div>
         </div>
         <script src="./scripts/script.js"></script>
