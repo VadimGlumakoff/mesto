@@ -4,3 +4,15 @@
     background-color: white;
     max-height: 361px;
 }
+
+@media screen and (max-width: 694px) {
+    .elements__card {
+        max-width: 200px;
+    }
+}
+
+@media screen and (max-width: 470px) {
+    .elements__card {
+        max-width: 282px;
+    }
+}

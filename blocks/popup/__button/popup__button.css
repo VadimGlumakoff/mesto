@@ -18,7 +18,7 @@
     transition: 0.3s ease-in-out;
 }
 
-@media screen and (max-width: 500px) {
+@media screen and (max-width: 560px) {
     .popup__button {
         font-size: 14px;
         line-height: 16.94px;

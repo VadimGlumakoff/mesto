@@ -3,3 +3,15 @@
     max-height: 282px;
     border-radius: 10px 10px 0 0;
 }
+
+@media screen and (max-width: 694px) {
+    .elements__image {
+        max-width: 200px;
+    }
+}
+
+@media screen and (max-width: 470px) {
+    .elements__image {
+        max-width: 282px;
+    }
+}
