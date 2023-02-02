@@ -26,48 +26,6 @@
                 </button>
             </section>
             <section class="elements">
-                <div class="elements__card">
-                    <img src="./images/kirill-pershin-1088404-unsplash.jpg" alt="Карачаевск" class="elements__image" />
-                    <div class="elements__title">
-                        <h2 class="elements__name">Карачаевск</h2>
-                        <button type="button" class="elements__like"></button>
-                    </div>
-                </div>
-                <div class="elements__card">
-                    <img src="./images/kirill-pershin-1404681-unsplash.jpg" alt="Гора Эльбрус" class="elements__image" />
-                    <div class="elements__title">
-                        <h2 class="elements__name">Гора Эльбрус</h2>
-                        <button type="button" class="elements__like"></button>
-                    </div>
-                </div>
-                <div class="elements__card">
-                    <img src="./images/kirill-pershin-1556355-unsplash.jpg" alt="Домбай" class="elements__image" />
-                    <div class="elements__title">
-                        <h2 class="elements__name">Домбай</h2>
-                        <button type="button" class="elements__like"></button>
-                    </div>
-                </div>
-                <div class="elements__card">
-                    <img src="./images/kirill-pershin-1404681-unsplash.jpg" alt="Гора Эльбрус" class="elements__image" />
-                    <div class="elements__title">
-                        <h2 class="elements__name">Гора Эльбрус</h2>
-                        <button type="button" class="elements__like"></button>
-                    </div>
-                </div>
-                <div class="elements__card">
-                    <img src="./images/kirill-pershin-1556355-unsplash.jpg" alt="Домбай" class="elements__image" />
-                    <div class="elements__title">
-                        <h2 class="elements__name">Домбай</h2>
-                        <button type="button" class="elements__like"></button>
-                    </div>
-                </div>
-                <div class="elements__card">
-                    <img src="./images/kirill-pershin-1088404-unsplash.jpg" alt="Карачаевск" class="elements__image" />
-                    <div class="elements__title">
-                        <h2 class="elements__name">Карачаево-Черкесия</h2>
-                        <button type="button" class="elements__like"></button>
-                    </div>
-                </div>
             </section>
         </main>
         <footer class="footer">
@@ -84,6 +42,34 @@
                 </form>
             </div>
         </div>
+        <div class="popup" id="popup__add">
+            <div class="popup__content">
+                <button class="popup__close" id="close__add" type="button"></button>
+                <h2 class="popup__title">Новое место</h2>
+                <form class="popup__form" name="form" method="post" id="form-add-card">
+                    <input type="text" placeholder="Название" name="name" class="popup__name" id="card-name" />
+                    <input type="text" placeholder="Ссылка на картинку" name="about" class="popup__name" id="card-link" />
+                    <button class="popup__button" id="btn" type="submit">Создать</button>
+                </form>
+            </div>
+        </div>
+        <div class="popup" id="popup-image">
+            <div class="popup__container">
+            <img class="popup__image" alt="" src="">
+            <h3 class="popup__subtitle"></h3>
+            <button class="popup__close" id="popup-close-image" type="button"></button>
+            </div>
+        </div>
+        <template id="template-card">
+            <div class="elements__card">
+                <button class="elements__delete" type="button"></button>
+                <img class="elements__image" src="" alt="">
+                <div class="elements__title">
+                    <h2 class="elements__name"></h2>
+                    <button type="button" class="elements__like"></button>
+                </div>
+            </div>
+        </template>
         <script src="./scripts/script.js"></script>
     </body>
 </html>
