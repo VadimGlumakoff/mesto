@@ -1,5 +1,4 @@
 const profilePopup = document.querySelector(".popup_type_profile");
-const popup = document.querySelector('.popup');
 const profileOpenButton = document.querySelector(".profile__edit");
 const profileCloseButton = document.querySelector(".popup__close_profile");
 const profileForm = document.querySelector(".popup__form_type_edit");
@@ -24,6 +23,7 @@ const imagePopup = document.querySelector('.popup_type_image');
 const popupImageActive = document.querySelector('.popup__image');
 const popupSubtitle = document.querySelector('.popup__subtitle');
 const popupImageForm = document.getElementById('form-add-card');
+const closeButtons = document.querySelectorAll('.popup__close');
 
 /*попап закрытие*/
 
@@ -101,12 +101,12 @@ const initialCards = [
 
 
 /*Лайк активный*/
-function likeCard(evt) {
+function toggleLike(evt) {
     evt.target.classList.toggle('elements__like_active');
 } 
 
 /*Удаление карточки*/
-function cardDelete(e) {
+function deleteCard(e) {
     e.target.closest('.elements__card').remove();
 }
 
@@ -122,24 +122,29 @@ function createCard(item) {
     imageCard.src = item.link;
 
     const likeButton = card.querySelector('.elements__like');
-    likeButton.addEventListener('click', likeCard);
+    likeButton.addEventListener('click', toggleLike);
 
     const deleteButton = card.querySelector('.elements__delete');
-    deleteButton.addEventListener('click', cardDelete);
+    deleteButton.addEventListener('click', deleteCard);
 
-    imageCard.addEventListener('click', () => {
-        imageCard.addEventListener('click', () => openPopup(imagePopup));
+    
+        imageCard.addEventListener('click', () =>  openPopup(imagePopup));
         popupImageActive.src = imageCard.src;
-        popupImageActive.alt = cardName.value;
+        popupImageActive.alt = item.name;
         popupSubtitle.textContent = title.textContent;
-    });
+    
     
     
     return card;
     
 }
 
-popupImageClose.addEventListener('click', () => closePopup(imagePopup));
+closeButtons.forEach((button) => {
+    const popup = button.closest('.popup');
+
+    button.addEventListener('click', () => closePopup(popup));
+  });
+
   
 
 /*Добавление карточек из массива*/
