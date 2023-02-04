@@ -41,7 +41,7 @@ function openPopup(popup) {
 
 buttonAdd.addEventListener("click", () => openPopup(popupAdd));
 
-closeAdd.addEventListener("click", () => closePopup(popupAdd));
+
 
 
 
