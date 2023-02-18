@@ -25,27 +25,35 @@ const popupSubtitle = document.querySelector(".popup__subtitle");
 const popupImageForm = document.getElementById("form-add-card");
 const closeButtons = document.querySelectorAll(".popup__close");
 
+       
+
 /*попап закрытие*/
+
 
 function closePopup(popup) {
     popup.classList.remove("popup_opened");
+    const formElement = popup.querySelector('.popup__form');
 }
 
 /*попап открытие*/
 function openPopup(popup) {
     popup.classList.add("popup_opened");
+    
 }
 
 /*попап добавление картинки*/
 
-buttonAdd.addEventListener("click", () => openPopup(popupAdd));
+buttonAdd.addEventListener("click", () => {
+    openPopup(popupAdd)});
 
 /*попап редактирование пользователя*/
 
 function openPopupProfile() {
     nameInput.value = profileName.textContent;
     jobInput.value = profileAboutMe.textContent;
+   
     openPopup(profilePopup);
+    
 }
 
 profileOpenButton.addEventListener("click", openPopupProfile);
@@ -87,6 +95,7 @@ const initialCards = [
     },
 ];
 
+
 /*Лайк активный*/
 function toggleLike(evt) {
     evt.target.classList.toggle("elements__like_active");
@@ -120,6 +129,7 @@ function createCard(item) {
     });
 
     return card;
+    
 }
 
 closeButtons.forEach((button) => {
@@ -127,6 +137,25 @@ closeButtons.forEach((button) => {
 
     button.addEventListener("click", () => closePopup(popup));
 });
+//Закрытие esp
+function popupEscClose(event) {
+   if (event.key === 'Escape') {
+    const open = document.querySelector('.popup_opened');
+    closePopup(open);
+   }
+}
+
+document.addEventListener('keydown', popupEscClose);
+
+//Закрытие мышкой по оверлей
+function popupMouseClose(event) {
+    if (event.target.classList.contains('popup_opened')) {
+        const open = document.querySelector('.popup_opened');
+    closePopup(open);
+    }
+}
+
+document.addEventListener('mouseup', popupMouseClose);
 
 /*Добавление карточек из массива*/
 
@@ -152,9 +181,13 @@ addCardForm.addEventListener("submit", (evt) => {
     cardLink.value = "";
 
     containerElements.prepend(card);
-
+    
     closePopup(popupAdd);
 });
+
+
+
+
 
 
 
