@@ -1,13 +1,10 @@
 
-//функция, чтобы после добавления карточки кнопка была не активной.
-const buttonSubmitAddCard = (config) => {
-  const buttonSubmit = Array.from(document.querySelectorAll(config.submitButtonSelector));
-  buttonSubmit.forEach((item) => {
-    item.classList.add(config.inactiveButtonClass);
-    item.disabled = true;
-  })
+// функция, чтобы после добавления карточки кнопка была не активной.
+const disableAddCardButton = (button) => {
+    button.classList.add('popup__button_disabled');
+    button.disabled = true;
+  }
 
-}
 
 
 const showInputError = (formElement, formInput, config, errorMessage) => {
@@ -87,3 +84,10 @@ enableValidation({
   inputErrorClass: 'popup__type_error_activ'
 });
 
+// const resetInputError = () => {
+//   const resetFormError = document.querySelector('.popup__form');
+//   const resetInputError = Array.from(resetFormError.querySelectorAll('.form__name'));
+//   resetInputError.forEach((input) => {
+//     hideInputError(formElement, formInput, input);
+//   })
+// }

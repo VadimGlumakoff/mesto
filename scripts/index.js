@@ -48,14 +48,14 @@ function popupEscClose(event) {
 
 function closePopup(popup) {
     popup.classList.remove("popup_opened");
-    
+    document.removeEventListener('keydown', popupEscClose);
+    document.removeEventListener('mouseup', popupMouseClose);
 }
 
 
 /*попап открытие*/
 function openPopup(popup) {
     popup.classList.add("popup_opened");
-    buttonSubmitAddCard({submitButtonSelector: '.popup__button', inactiveButtonClass: 'popup__button_disabled'});
     document.addEventListener('keydown', popupEscClose);
     document.addEventListener('mouseup', popupMouseClose);
 }
@@ -63,7 +63,10 @@ function openPopup(popup) {
 /*попап добавление картинки*/
 
 buttonAdd.addEventListener("click", () => {
-    openPopup(popupAdd)});
+    const buttonSubmit = document.querySelector('.popup__button_add');
+    disableAddCardButton(buttonSubmit);
+    openPopup(popupAdd)
+});
 
 /*попап редактирование пользователя*/
 
