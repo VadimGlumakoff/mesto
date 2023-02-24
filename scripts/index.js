@@ -53,6 +53,7 @@ function closePopup(popup) {
 }
 
 
+
 /*попап открытие*/
 function openPopup(popup) {
     popup.classList.add("popup_opened");
@@ -63,8 +64,8 @@ function openPopup(popup) {
 /*попап добавление картинки*/
 
 buttonAdd.addEventListener("click", () => {
-    const buttonSubmit = document.querySelector('.popup__button_add');
-    disableAddCardButton(buttonSubmit);
+    const buttonSubmit = document.querySelector(config.submitButtonAddSelector);
+    disableAddCardButton(buttonSubmit, config);
     openPopup(popupAdd)
 });
 

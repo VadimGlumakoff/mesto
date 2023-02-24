@@ -1,10 +1,9 @@
 
 // функция, чтобы после добавления карточки кнопка была не активной.
-const disableAddCardButton = (button) => {
-    button.classList.add('popup__button_disabled');
+const disableAddCardButton = (button, config) => {
+    button.classList.add(config.inactiveButtonClass);
     button.disabled = true;
   }
-
 
 
 const showInputError = (formElement, formInput, config, errorMessage) => {
