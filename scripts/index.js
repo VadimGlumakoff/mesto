@@ -34,8 +34,8 @@ formProfileValidator.enableValidation();
 //Закрытие esp
 function popupEscClose(event) {
   if (event.key === "Escape") {
-    const open = document.querySelector(".popup_opened");
-    closePopup(open);
+    const popupOpening = document.querySelector(".popup_opened");
+    closePopup(popupOpening);
   }
 }
 
@@ -48,8 +48,8 @@ closeButtons.forEach((button) => {
 //Закрытие мышкой по оверлей
 function popupMouseClose(event) {
   if (event.target.classList.contains("popup_opened")) {
-    const open = document.querySelector(".popup_opened");
-    closePopup(open);
+    const popupOpening = document.querySelector(".popup_opened");
+    closePopup(popupOpening);
   }
 }
 
@@ -71,7 +71,6 @@ function openPopup(popup) {
 /*попап добавление картинки*/
 
 buttonAdd.addEventListener("click", () => {
-  const buttonSubmit = document.querySelector(config.submitButtonAddSelector);
   formCardValidator.disableAddCardButton();
 
   openPopup(popupAdd);
@@ -106,8 +105,7 @@ function handleProfileFormSubmit(evt) {
 profileForm.addEventListener("submit", handleProfileFormSubmit);
 
 initialCards.forEach((item) => {
-  const card = new Card(item, openImagePopup);
-  const cardElement = card.generateCard();
+  const cardElement = createCopyCard(item).generateCard();
 
   // Добавляем в DOM
   document.querySelector(".elements").prepend(cardElement);
@@ -117,8 +115,8 @@ addCardForm.addEventListener("submit", (evt) => {
   evt.preventDefault();
 
   const newCard = { name: cardName.value, link: cardLink.value };
-  const card = new Card(newCard, openImagePopup);
-  const cardElement = card.generateCard();
+
+  const cardElement = createCopyCard(newCard).generateCard();
 
   containerElements.prepend(cardElement);
 
@@ -127,3 +125,9 @@ addCardForm.addEventListener("submit", (evt) => {
   cardName.value = "";
   cardLink.value = "";
 });
+
+// Создание Экземпляра карточки
+function createCopyCard(item) {
+  const card = new Card(item, openImagePopup);
+  return card;
+}
