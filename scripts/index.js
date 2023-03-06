@@ -105,7 +105,7 @@ function handleProfileFormSubmit(evt) {
 profileForm.addEventListener("submit", handleProfileFormSubmit);
 
 initialCards.forEach((item) => {
-  const cardElement = createCopyCard(item).generateCard();
+  const cardElement = createCopyCard(item);
 
   // Добавляем в DOM
   document.querySelector(".elements").prepend(cardElement);
@@ -116,7 +116,7 @@ addCardForm.addEventListener("submit", (evt) => {
 
   const newCard = { name: cardName.value, link: cardLink.value };
 
-  const cardElement = createCopyCard(newCard).generateCard();
+  const cardElement = createCopyCard(newCard);
 
   containerElements.prepend(cardElement);
 
@@ -129,5 +129,6 @@ addCardForm.addEventListener("submit", (evt) => {
 // Создание Экземпляра карточки
 function createCopyCard(item) {
   const card = new Card(item, openImagePopup);
-  return card;
+
+  return card.generateCard();
 }
