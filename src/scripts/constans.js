@@ -11,3 +11,5 @@ export const configValidation = {
   inputErrorClass: "popup__type_error_activ",
   inputError: ".popup__error",
 };
+
+
