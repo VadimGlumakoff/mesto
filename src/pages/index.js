@@ -1,13 +1,12 @@
-import "./pages/index.css";
-
-import Card from "./scripts/Card.js";
-import { config, configValidation } from "./scripts/constans.js";
-import FormValidator from "./scripts/FormValidator.js";
-import { initialCards } from "./scripts/initialCards.js";
-import Section from "./scripts/Section.js";
-import PopupWithImage from "./scripts/PopupWithImage.js";
-import PopupWithForm from "./scripts/PopupWithForm.js";
-import UserInfo from "./scripts/UserInfo.js";
+import "../pages/index.css";
+import Card from "../components/Card.js";
+import { config, configValidation } from "../utils/constans.js";
+import FormValidator from "../components/FormValidator.js";
+import { initialCards } from "../utils/initialCards.js";
+import Section from "../components/Section.js";
+import PopupWithImage from "../components/PopupWithImage.js";
+import PopupWithForm from "../components/PopupWithForm.js";
+import UserInfo from "../components/UserInfo.js";
 
 const profileOpenButton = document.querySelector(".profile__edit");
 
@@ -78,7 +77,9 @@ const userInfo = new UserInfo({
 const cardPopup = new PopupWithForm(".popup_type_add", cardSubmit);
 
 function cardSubmit(value) {
+  console.log(value);
   const card = createCopyCard(value);
+  console.log(card);
   cardList.addItem(card);
   cardPopup.close();
 }
@@ -86,8 +87,6 @@ function cardSubmit(value) {
 const userPopup = new PopupWithForm(".popup_type_profile", userSubmit);
 
 function userSubmit(value) {
-  console.log(value);
-  console.log(userPopup._getInputValues());
   userInfo.setUserInfo(value);
   userPopup.close();
 }
