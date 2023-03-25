@@ -41,7 +41,7 @@ const cardList = new Section(
 );
 
 function createCopyCard(item) {
-  const card = new Card(item, openImagePopup);
+  const card = new Card(item, openImagePopup, "#template-card");
 
   return card.generateCard();
 }
@@ -49,7 +49,7 @@ function createCopyCard(item) {
 cardList.renderItems();
 
 buttonAdd.addEventListener("click", () => {
-  formCardValidator.disableAddCardButton();
+  formCardValidator.disableButton();
   cardPopup.open();
 });
 
@@ -74,19 +74,25 @@ const userInfo = new UserInfo({
   about: ".profile__about",
 });
 
-const cardPopup = new PopupWithForm(".popup_type_add", cardSubmit);
+const cardPopup = new PopupWithForm(".popup_type_add", handleCardFormSubmit);
 
-function cardSubmit(value) {
-  console.log(value);
+function handleCardFormSubmit(value) {
   const card = createCopyCard(value);
-  console.log(card);
+
   cardList.addItem(card);
   cardPopup.close();
 }
 
-const userPopup = new PopupWithForm(".popup_type_profile", userSubmit);
+const userPopup = new PopupWithForm(
+  ".popup_type_profile",
+  handleProfileFormSubmit
+);
 
-function userSubmit(value) {
+function handleProfileFormSubmit(value) {
   userInfo.setUserInfo(value);
   userPopup.close();
 }
+
+cardPopup.setEventListeners();
+userPopup.setEventListeners();
+imagePopupClass.setEventListeners();

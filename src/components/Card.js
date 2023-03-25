@@ -1,8 +1,9 @@
 export default class Card {
-  constructor(data, handlePopupImage) {
+  constructor(data, handlePopupImage, templateSelector) {
     this._name = data.name;
     this._link = data.link;
     this._handlePopupImage = handlePopupImage;
+    this._templateSelector = templateSelector;
   }
 
   _openPopupImage() {
@@ -11,15 +12,13 @@ export default class Card {
 
   _getTemplate() {
     return document
-      .querySelector("#template-card")
+      .querySelector(this._templateSelector)
       .content.querySelector(".elements__card")
       .cloneNode(true);
   }
 
   _handleLikeButton() {
-    this._element
-      .querySelector(".elements__like")
-      .classList.toggle("elements__like_active");
+    this._likedButtonElement.classList.toggle("elements__like_active");
   }
 
   _handleDeleteCard() {
@@ -28,33 +27,30 @@ export default class Card {
   }
 
   _setEventListeners() {
-    this._element
-      .querySelector(".elements__like")
-      .addEventListener("click", () => {
-        this._handleLikeButton();
-      });
+    this._likedButtonElement.addEventListener("click", () => {
+      this._handleLikeButton();
+    });
 
-    this._element
-      .querySelector(".elements__delete")
-      .addEventListener("click", () => {
-        this._handleDeleteCard();
-      });
+    this._deleteButtonElement.addEventListener("click", () => {
+      this._handleDeleteCard();
+    });
 
-    this._element
-      .querySelector(".elements__image")
-      .addEventListener("click", () => {
-        this._openPopupImage();
-      });
+    this._cardImage.addEventListener("click", () => {
+      this._openPopupImage();
+    });
   }
 
   generateCard() {
     this._element = this._getTemplate();
-
-    this._setEventListeners();
-    this._element.querySelector(".elements__image").src = this._link;
+    this._cardImage = this._element.querySelector(".elements__image");
+    this._cardImage.src = this._link;
     this._element.querySelector(".elements__name").textContent = this._name;
-    this._element.querySelector(".elements__image").alt = this._name;
+    this._cardImage.alt = this._name;
 
+    this._likedButtonElement = this._element.querySelector(".elements__like");
+    this._deleteButtonElement =
+      this._element.querySelector(".elements__delete");
+    this._setEventListeners();
     return this._element;
   }
 }

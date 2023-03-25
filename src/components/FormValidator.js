@@ -5,15 +5,13 @@ export default class FormValidator {
     this._inputList = [
       ...this._formElement.querySelectorAll(this._config.inputSelector),
     ];
-    this._inputError = [
-      ...this._formElement.querySelectorAll(this._config.inputError),
-    ];
+
     this._buttonElement = this._formElement.querySelector(
       this._config.submitButtonSelector
     );
   }
 
-  disableAddCardButton() {
+  disableButton() {
     this._buttonElement.classList.add(this._config.inactiveButtonClass);
     this._buttonElement.disabled = true;
   }
@@ -58,8 +56,7 @@ export default class FormValidator {
 
   toggleButtonState() {
     if (this._hasInvalidInput()) {
-      this._buttonElement.classList.add(this._config.inactiveButtonClass);
-      this._buttonElement.disabled = true;
+      this.disableButton();
     } else {
       this._buttonElement.disabled = false;
       this._buttonElement.classList.remove(this._config.inactiveButtonClass);
