@@ -17,11 +17,13 @@
     </header>
     <main class="content">
       <section class="profile">
-        <img
-          class="profile__avatar"
-          src="<%=require('./images/image.jpg')%>"
-          alt="Аватар"
-        />
+        <button class="profile__button_avatar">
+          <img
+            class="profile__avatar"
+            src="<%=require('./images/image.jpg')%>"
+            alt="Аватар"
+          />
+        </button>
         <div class="profile__title">
           <div class="profile__button">
             <h1 class="profile__name">Жак-Ив Кусто</h1>
@@ -134,7 +136,39 @@
         ></button>
       </div>
     </div>
-    <template id="template-card">
+    <div class="popup popup_type_del">
+      <div class="popup__content">
+        <p class="popup__title">Вы уверены?</p>
+        <button class="popup__button" type="button">Да</button>
+        <button class="popup__close"></button>
+      </div>
+    </div>
+    <div class="popup popup_type_avatar">
+      <div class="popup__content">
+        <button class="popup__close popup__close_avatar" type="button"></button>
+        <h2 class="popup__title">Обновить аватар</h2>
+        <form
+          class="popup__form popup__form_type_avatar"
+          name="form"
+          novalidate
+        >
+          <input
+            type="url"
+            id="link-avatar"
+            placeholder="Ссылка на фотографию"
+            name="name"
+            class="popup__name"
+            required
+            maxlength="200"
+            minlength="2"
+          />
+          <span class="popup__error link-avatar-error"></span>
+
+          <button class="popup__button" type="submit">Сохранить</button>
+        </form>
+      </div>
+    </div>
+    <template id="template-card-owner">
       <div class="elements__card">
         <button class="elements__delete" type="button"></button>
         <img class="elements__image" />
@@ -142,6 +176,17 @@
           <h2 class="elements__name"></h2>
           <button type="button" class="elements__like"></button>
         </div>
+        <p class="elements__number"></p>
+      </div>
+    </template>
+    <template id="template-card">
+      <div class="elements__card">
+        <img class="elements__image" />
+        <div class="elements__title">
+          <h2 class="elements__name"></h2>
+          <button type="button" class="elements__like"></button>
+        </div>
+        <p class="elements__number"></p>
       </div>
     </template>
   </body>
