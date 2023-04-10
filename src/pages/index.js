@@ -20,7 +20,7 @@ const buttonAdd = document.querySelector(".profile__add");
 const popupAvatar = document.querySelector(".popup__form_type_avatar");
 const formAddCard = document.querySelector(".popup__form_type_add");
 const formEditProfile = document.querySelector(".popup__form_type_edit");
-const buttonAvatar = document.querySelector(".profile__button_avatar");
+const buttonAvatar = document.querySelector(".profile__pencil");
 const formCardValidator = new FormValidator(configValidation, formAddCard);
 formCardValidator.enableValidation();
 

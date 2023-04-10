@@ -42,4 +42,5 @@
 @import url(../blocks/content/content.css);
 @import url(../blocks/popup/_type/popup_type_del.css);
 @import url(../blocks/elements/__number/elements__number.css);
-@import url(../blocks/profile/__button/_avatar/profile__button_avatar.css);
+
+@import url(../blocks/profile/__pencil/profile__pencil.css);
