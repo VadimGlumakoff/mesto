@@ -1,5 +1,12 @@
 export default class Card {
-  constructor(card, handlePopupImage, templateSelectors, clickLike, userId) {
+  constructor(
+    card,
+    handlePopupImage,
+    templateSelectors,
+    clickLike,
+    userId,
+    deleteCard
+  ) {
     this._name = card.name;
     this._link = card.link;
     this._likesArr = card.likes;
@@ -10,6 +17,7 @@ export default class Card {
     this._handlePopupImage = handlePopupImage;
     this._templateSelectors = templateSelectors;
     this._clickLike = clickLike;
+    this._deleteCard = deleteCard;
   }
 
   updateLikes(count) {
@@ -34,8 +42,9 @@ export default class Card {
   }
 
   _handleDeleteCard() {
-    this._element.remove();
-    this._element = null;
+    // this._element.remove();
+    // this._element = null;
+    this._deleteCard(this._element, this._cardId);
   }
 
   _setEventListeners() {

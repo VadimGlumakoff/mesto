@@ -8,14 +8,16 @@ import PopupWithImage from "../components/PopupWithImage.js";
 import PopupWithForm from "../components/PopupWithForm.js";
 import UserInfo from "../components/UserInfo.js";
 import Api from "../components/Api.js";
+import PopupDelete from "../components/PopupDelete";
+import { changeButtonText } from "../utils/utils";
 
 const profileOpenButton = document.querySelector(".profile__edit");
 
 const nameInput = document.getElementById("name");
 const jobInput = document.getElementById("about");
-
+const avatar = document.querySelector(".profile__avatar");
 const buttonAdd = document.querySelector(".profile__add");
-
+const popupAvatar = document.querySelector(".popup__form_type_avatar");
 const formAddCard = document.querySelector(".popup__form_type_add");
 const formEditProfile = document.querySelector(".popup__form_type_edit");
 const buttonAvatar = document.querySelector(".profile__button_avatar");
@@ -26,6 +28,9 @@ const formProfileValidator = new FormValidator(
   configValidation,
   formEditProfile
 );
+
+const formAvatarValidator = new FormValidator(configValidation, popupAvatar);
+formAvatarValidator.enableValidation();
 
 formProfileValidator.enableValidation();
 
@@ -45,7 +50,8 @@ function createCopyCard(item, userId) {
     openImagePopup,
     { other: "#template-card", owner: "#template-card-owner" },
     clickLike,
-    userId
+    userId,
+    deleteCard
   );
 
   return card.generateCard();
@@ -81,13 +87,16 @@ const userInfo = new UserInfo({
 
 const cardPopup = new PopupWithForm(".popup_type_add", handleCardFormSubmit);
 
-function handleCardFormSubmit(value) {
+function handleCardFormSubmit(value, button) {
+  const oldText = button.textContent;
+  changeButtonText(button, "Создание...");
   api
     .addCard(value)
     .then((result) => {
       const card = createCopyCard(result, userInfo.id);
       cardList.addItem(card);
       cardPopup.close();
+      changeButtonText(button, oldText);
     })
     .catch((err) => {
       console.log(err);
@@ -103,8 +112,19 @@ const avatarPopup = new PopupWithForm(
   handleAvatarFormSubmit
 );
 
-function handleAvatarFormSubmit(value) {
-  console.log(value);
+function handleAvatarFormSubmit(value, button) {
+  const oldText = button.textContent;
+  changeButtonText(button, "Сохранение...");
+  api
+    .editAvatar(value.name)
+    .then((result) => {
+      avatar.src = result.avatar;
+      avatarPopup.close();
+      changeButtonText(button, oldText);
+    })
+    .catch((err) => {
+      console.log(err);
+    });
 }
 
 const userPopup = new PopupWithForm(
@@ -112,13 +132,21 @@ const userPopup = new PopupWithForm(
   handleProfileFormSubmit
 );
 
-function handleProfileFormSubmit(value) {
-  api.editUserInfo(value).then((result) => {
-    userInfo.setUserInfo(result);
-    userPopup.close();
-  });
+function handleProfileFormSubmit(value, button) {
+  const oldText = button.textContent;
+  changeButtonText(button, "Сохранение...");
+  api
+    .editUserInfo(value)
+    .then((result) => {
+      userInfo.setUserInfo(result);
+      userPopup.close();
+      changeButtonText(button, oldText);
+    })
+    .catch((err) => {
+      console.log(err);
+    });
 }
-
+avatarPopup.setEventListeners();
 cardPopup.setEventListeners();
 userPopup.setEventListeners();
 imagePopupClass.setEventListeners();
@@ -158,9 +186,34 @@ Promise.all([api.getInitialCards(), api.getUserInfo()])
     const initialCards = res[0];
     const user = res[1];
     userInfo.id = user._id;
-    cardList.renderItems(initialCards, user._id);
+    cardList.renderItems(initialCards.reverse(), user._id);
     userInfo.setUserInfo(user);
+    avatar.src = user.avatar;
   })
   .catch((err) => {
     console.log(err);
   });
+
+const popupDelete = new PopupDelete(".popup_type_del", hundlerDeleteCard);
+
+function hundlerDeleteCard(card, cardId, button) {
+  const oldText = button.textContent;
+  changeButtonText(button, "Удаление...");
+  api
+    .removeCard(cardId)
+    .then(() => {
+      card.remove();
+      card = null;
+      popupDelete.close();
+      changeButtonText(button, oldText);
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+}
+
+popupDelete.setEventListeners();
+
+function deleteCard(card, cardId) {
+  popupDelete.open(card, cardId);
+}

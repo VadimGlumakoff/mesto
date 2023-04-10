@@ -77,4 +77,13 @@ export default class Api {
       return res.json();
     });
   }
+
+  removeCard(cardId) {
+    return fetch(`${this.url}/cards/${cardId}`, {
+      method: "DELETE",
+      headers: this.headers,
+    }).then((res) => {
+      return res.json();
+    });
+  }
 }
