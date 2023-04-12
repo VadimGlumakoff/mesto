@@ -4,12 +4,16 @@ export default class Api {
     this.headers = options.headers;
   }
 
+  _checkResponse(res) {
+    return res.ok ? res.json() : Promise.reject(res.status);
+  }
+
   getInitialCards() {
     return fetch(`${this.url}/cards`, {
       method: "GET",
       headers: this.headers,
     }).then((res) => {
-      return res.json();
+      return this._checkResponse(res);
     });
   }
 
@@ -22,7 +26,7 @@ export default class Api {
         link: data.link,
       }),
     }).then((res) => {
-      return res.json();
+      return this._checkResponse(res);
     });
   }
 
@@ -31,7 +35,7 @@ export default class Api {
       method: "GET",
       headers: this.headers,
     }).then((res) => {
-      return res.json();
+      return this._checkResponse(res);
     });
   }
 
@@ -44,7 +48,7 @@ export default class Api {
         about: data.about,
       }),
     }).then((res) => {
-      return res.json();
+      return this._checkResponse(res);
     });
   }
 
@@ -53,7 +57,7 @@ export default class Api {
       method: "PUT",
       headers: this.headers,
     }).then((res) => {
-      return res.json();
+      return this._checkResponse(res);
     });
   }
 
@@ -62,7 +66,7 @@ export default class Api {
       method: "DELETE",
       headers: this.headers,
     }).then((res) => {
-      return res.json();
+      return this._checkResponse(res);
     });
   }
 
@@ -74,7 +78,7 @@ export default class Api {
         avatar: url,
       }),
     }).then((res) => {
-      return res.json();
+      return this._checkResponse(res);
     });
   }
 
@@ -83,7 +87,7 @@ export default class Api {
       method: "DELETE",
       headers: this.headers,
     }).then((res) => {
-      return res.json();
+      return this._checkResponse(res);
     });
   }
 }

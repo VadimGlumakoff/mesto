@@ -8,14 +8,14 @@ import PopupWithImage from "../components/PopupWithImage.js";
 import PopupWithForm from "../components/PopupWithForm.js";
 import UserInfo from "../components/UserInfo.js";
 import Api from "../components/Api.js";
-import PopupDelete from "../components/PopupDelete";
+import PopupWithConfirmation from "../components/PopupWithConfirmation.js";
 import { changeButtonText } from "../utils/utils";
 
 const profileOpenButton = document.querySelector(".profile__edit");
 
 const nameInput = document.getElementById("name");
 const jobInput = document.getElementById("about");
-const avatar = document.querySelector(".profile__avatar");
+
 const buttonAdd = document.querySelector(".profile__add");
 const popupAvatar = document.querySelector(".popup__form_type_avatar");
 const formAddCard = document.querySelector(".popup__form_type_add");
@@ -48,7 +48,7 @@ function createCopyCard(item, userId) {
   const card = new Card(
     item,
     openImagePopup,
-    { other: "#template-card", owner: "#template-card-owner" },
+    "#template-card",
     clickLike,
     userId,
     deleteCard
@@ -95,16 +95,19 @@ function handleCardFormSubmit(value, button) {
     .then((result) => {
       const card = createCopyCard(result, userInfo.id);
       cardList.addItem(card);
-      cardPopup.close();
-      changeButtonText(button, oldText);
     })
     .catch((err) => {
       console.log(err);
+    })
+    .finally(() => {
+      cardPopup.close();
+      changeButtonText(button, oldText);
     });
 }
 
 buttonAvatar.addEventListener("click", () => {
   avatarPopup.open();
+  formAvatarValidator.disableButton();
 });
 
 const avatarPopup = new PopupWithForm(
@@ -118,12 +121,15 @@ function handleAvatarFormSubmit(value, button) {
   api
     .editAvatar(value.name)
     .then((result) => {
-      avatar.src = result.avatar;
-      avatarPopup.close();
-      changeButtonText(button, oldText);
+      userInfo.setUserAvatar(result.avatar);
+      // avatarPopup.close();
     })
     .catch((err) => {
       console.log(err);
+    })
+    .finally(() => {
+      changeButtonText(button, oldText);
+      avatarPopup.close();
     });
 }
 
@@ -139,11 +145,13 @@ function handleProfileFormSubmit(value, button) {
     .editUserInfo(value)
     .then((result) => {
       userInfo.setUserInfo(result);
-      userPopup.close();
-      changeButtonText(button, oldText);
     })
     .catch((err) => {
       console.log(err);
+    })
+    .finally(() => {
+      changeButtonText(button, oldText);
+      userPopup.close();
     });
 }
 avatarPopup.setEventListeners();
@@ -165,6 +173,7 @@ function clickLike(cardId, card, isLiked) {
       .removeLike(cardId)
       .then((res) => {
         card.updateLikes(res.likes.length);
+        card._likedButtonElement.classList.remove("elements__like_active");
       })
       .catch((err) => {
         console.log(err);
@@ -174,6 +183,7 @@ function clickLike(cardId, card, isLiked) {
       .addLike(cardId)
       .then((res) => {
         card.updateLikes(res.likes.length);
+        card._likedButtonElement.classList.add("elements__like_active");
       })
       .catch((err) => {
         console.log(err);
@@ -185,16 +195,19 @@ Promise.all([api.getInitialCards(), api.getUserInfo()])
   .then((res) => {
     const initialCards = res[0];
     const user = res[1];
-    userInfo.id = user._id;
+    userInfo.setUserId(user._id);
     cardList.renderItems(initialCards.reverse(), user._id);
     userInfo.setUserInfo(user);
-    avatar.src = user.avatar;
+    userInfo.setUserAvatar(user.avatar);
   })
   .catch((err) => {
     console.log(err);
   });
 
-const popupDelete = new PopupDelete(".popup_type_del", hundlerDeleteCard);
+const PopupDelete = new PopupWithConfirmation(
+  ".popup_type_del",
+  hundlerDeleteCard
+);
 
 function hundlerDeleteCard(card, cardId, button) {
   const oldText = button.textContent;
@@ -202,18 +215,20 @@ function hundlerDeleteCard(card, cardId, button) {
   api
     .removeCard(cardId)
     .then(() => {
-      card.remove();
-      card = null;
-      popupDelete.close();
-      changeButtonText(button, oldText);
+      // PopupDelete.close();
+      // changeButtonText(button, oldText);
     })
     .catch((err) => {
       console.log(err);
+    })
+    .finally(() => {
+      PopupDelete.close();
+      changeButtonText(button, oldText);
     });
 }
 
-popupDelete.setEventListeners();
+PopupDelete.setEventListeners();
 
 function deleteCard(card, cardId) {
-  popupDelete.open(card, cardId);
+  PopupDelete.open(card, cardId);
 }

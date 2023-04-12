@@ -2,7 +2,7 @@ export default class Card {
   constructor(
     card,
     handlePopupImage,
-    templateSelectors,
+    templateSelector,
     clickLike,
     userId,
     deleteCard
@@ -15,7 +15,7 @@ export default class Card {
     this._cardId = card._id;
     this._userId = userId;
     this._handlePopupImage = handlePopupImage;
-    this._templateSelectors = templateSelectors;
+    this._templateSelector = templateSelector;
     this._clickLike = clickLike;
     this._deleteCard = deleteCard;
   }
@@ -28,22 +28,19 @@ export default class Card {
     this._handlePopupImage(this._name, this._link);
   }
 
-  _getTemplate(templateSelector) {
+  _getTemplate() {
     return document
-      .querySelector(templateSelector)
+      .querySelector(this._templateSelector)
       .content.querySelector(".elements__card")
       .cloneNode(true);
   }
 
   _handleLikeButton() {
-    this._likedButtonElement.classList.toggle("elements__like_active");
     this._clickLike(this._cardId, this, this._isLiked);
     this._isLiked = !this._isLiked;
   }
 
   _handleDeleteCard() {
-    // this._element.remove();
-    // this._element = null;
     this._deleteCard(this._element, this._cardId);
   }
 
@@ -68,12 +65,12 @@ export default class Card {
       return el._id === this._userId;
     });
     this._isOwner = this._ownerId === this._userId;
-    if (this._isOwner) {
-      this._element = this._getTemplate(this._templateSelectors.owner);
-    } else {
-      this._element = this._getTemplate(this._templateSelectors.other);
-    }
-
+    // if (this._isOwner) {
+    //   this._element = this._getTemplate(this._templateSelectors.owner);
+    // } else {
+    //   this._element = this._getTemplate(this._templateSelectors.other);
+    // }
+    this._element = this._getTemplate();
     this._cardImage = this._element.querySelector(".elements__image");
     this._cardImage.src = this._link;
     this._element.querySelector(".elements__name").textContent = this._name;
@@ -84,9 +81,11 @@ export default class Card {
       this._likedButtonElement.classList.add("elements__like_active");
     }
     this._elementLikeCount.textContent = this._likes;
-    if (this._isOwner) {
-      this._deleteButtonElement =
-        this._element.querySelector(".elements__delete");
+    this._deleteButtonElement =
+      this._element.querySelector(".elements__delete");
+
+    if (!this._isOwner) {
+      this._deleteButtonElement.style.display = "none";
     }
 
     this._setEventListeners();

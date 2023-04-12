@@ -1,0 +1,6 @@
+.elements__delete_invisible {
+  visibility: hidden;
+  border: none;
+  width: 0;
+  height: 0;
+}
