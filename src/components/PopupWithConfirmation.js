@@ -16,8 +16,8 @@ export default class PopupWithConfirmation extends Popup {
 
   _submitForm(evt) {
     evt.preventDefault();
-    const submitButton = this._form.querySelector(".popup__button");
-    this._handlerSubmit(this._card, this._cardId, submitButton);
+   
+    this._handlerSubmit(this._card, this._cardId);
     this._card.remove();
     this._card = null;
   }

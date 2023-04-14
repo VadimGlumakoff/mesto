@@ -9,7 +9,6 @@ import PopupWithForm from "../components/PopupWithForm.js";
 import UserInfo from "../components/UserInfo.js";
 import Api from "../components/Api.js";
 import PopupWithConfirmation from "../components/PopupWithConfirmation.js";
-import { changeButtonText } from "../utils/utils";
 
 const profileOpenButton = document.querySelector(".profile__edit");
 
@@ -51,6 +50,7 @@ function createCopyCard(item, userId) {
     "#template-card",
     clickLike,
     userId,
+
     deleteCard
   );
 
@@ -61,7 +61,7 @@ function createCopyCard(item, userId) {
 
 buttonAdd.addEventListener("click", () => {
   formCardValidator.disableButton();
-  cardPopup.open();
+  cardPopup.open("Создание...");
 });
 
 function openPopupProfile() {
@@ -70,7 +70,7 @@ function openPopupProfile() {
   nameInput.value = user.name;
   jobInput.value = user.about;
 
-  userPopup.open();
+  userPopup.open("Сохранение...");
 }
 const imagePopupClass = new PopupWithImage(".popup_type_image");
 
@@ -80,33 +80,34 @@ function openImagePopup(name, link) {
 
 profileOpenButton.addEventListener("click", openPopupProfile);
 
-const userInfo = new UserInfo({
-  name: ".profile__name",
-  about: ".profile__about",
-});
+const userInfo = new UserInfo(
+  {
+    name: ".profile__name",
+    about: ".profile__about",
+  },
+  ".profile__avatar"
+);
 
 const cardPopup = new PopupWithForm(".popup_type_add", handleCardFormSubmit);
 
-function handleCardFormSubmit(value, button) {
-  const oldText = button.textContent;
-  changeButtonText(button, "Создание...");
+function handleCardFormSubmit(value) {
   api
     .addCard(value)
     .then((result) => {
       const card = createCopyCard(result, userInfo.id);
       cardList.addItem(card);
+      cardPopup.close();
     })
     .catch((err) => {
       console.log(err);
     })
     .finally(() => {
-      cardPopup.close();
-      changeButtonText(button, oldText);
+      cardPopup.returnOldTextButton();
     });
 }
 
 buttonAvatar.addEventListener("click", () => {
-  avatarPopup.open();
+  avatarPopup.open("Сохранение...");
   formAvatarValidator.disableButton();
 });
 
@@ -115,21 +116,18 @@ const avatarPopup = new PopupWithForm(
   handleAvatarFormSubmit
 );
 
-function handleAvatarFormSubmit(value, button) {
-  const oldText = button.textContent;
-  changeButtonText(button, "Сохранение...");
+function handleAvatarFormSubmit(value) {
   api
     .editAvatar(value.name)
     .then((result) => {
       userInfo.setUserAvatar(result.avatar);
-      // avatarPopup.close();
+      avatarPopup.close();
     })
     .catch((err) => {
       console.log(err);
     })
     .finally(() => {
-      changeButtonText(button, oldText);
-      avatarPopup.close();
+      avatarPopup.returnOldTextButton();
     });
 }
 
@@ -138,20 +136,18 @@ const userPopup = new PopupWithForm(
   handleProfileFormSubmit
 );
 
-function handleProfileFormSubmit(value, button) {
-  const oldText = button.textContent;
-  changeButtonText(button, "Сохранение...");
+function handleProfileFormSubmit(value) {
   api
     .editUserInfo(value)
     .then((result) => {
       userInfo.setUserInfo(result);
+      userPopup.close();
     })
     .catch((err) => {
       console.log(err);
     })
     .finally(() => {
-      changeButtonText(button, oldText);
-      userPopup.close();
+      userPopup.returnOldTextButton();
     });
 }
 avatarPopup.setEventListeners();
@@ -173,7 +169,8 @@ function clickLike(cardId, card, isLiked) {
       .removeLike(cardId)
       .then((res) => {
         card.updateLikes(res.likes.length);
-        card._likedButtonElement.classList.remove("elements__like_active");
+        card.deleteLike();
+        card.changeLikeStatus();
       })
       .catch((err) => {
         console.log(err);
@@ -183,7 +180,8 @@ function clickLike(cardId, card, isLiked) {
       .addLike(cardId)
       .then((res) => {
         card.updateLikes(res.likes.length);
-        card._likedButtonElement.classList.add("elements__like_active");
+        card.addLike();
+        card.changeLikeStatus();
       })
       .catch((err) => {
         console.log(err);
@@ -209,22 +207,16 @@ const PopupDelete = new PopupWithConfirmation(
   hundlerDeleteCard
 );
 
-function hundlerDeleteCard(card, cardId, button) {
-  const oldText = button.textContent;
-  changeButtonText(button, "Удаление...");
+function hundlerDeleteCard(card, cardId) {
   api
     .removeCard(cardId)
     .then(() => {
-      // PopupDelete.close();
-      // changeButtonText(button, oldText);
+      PopupDelete.close();
     })
     .catch((err) => {
       console.log(err);
     })
-    .finally(() => {
-      PopupDelete.close();
-      changeButtonText(button, oldText);
-    });
+    .finally(() => {});
 }
 
 PopupDelete.setEventListeners();
